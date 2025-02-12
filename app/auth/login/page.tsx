@@ -4,18 +4,21 @@ import React from "react";
 import loginImage from "@/public/cloud.jpeg";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { loginSchema, TloginSchema } from "@/schemas/auth.schema";
 
-const Page = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<TloginSchema>({
+const Login = () => {
+  const form = useForm<TloginSchema>({
     resolver: zodResolver(loginSchema),
   });
 
@@ -42,57 +45,74 @@ const Page = () => {
       </div>
 
       <div className="flex justify-center items-center min-h-screen">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="p-8 rounded-md space-y-6 min-w-[400px]"
-        >
-          <div className="space-y-2">
-            <h1 className="text-center text-3xl font-serif">
-              Login to your account
-            </h1>
-            <p className="text-center font-thin">Let get started 🚀</p>
-          </div>
-          <div className="space-y-2">
-            <Label className="font-bold">Email</Label>
-            <span className="text-red-500 ml-2">*</span>
-            <Input
-              {...register("email")}
-              className="border border-gray-300"
-              placeholder="Enter you email"
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-4 min-w-[380px]"
+          >
+            <div className="space-y-2">
+              <h1 className="text-center text-3xl font-serif">
+                Login to your account
+              </h1>
+              <p className="text-center font-thin">Let&apos;s get started 🚀</p>
+            </div>
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-bold">
+                    Email
+                    <span className="text-red-500 ml-2">*</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      className="border border-gray-400"
+                      placeholder="Enter your email"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email.message}</p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label className="font-bold">Password</Label>
-            <span className="text-red-500 ml-2">*</span>
-            <Input
-              {...register("password")}
-              className="border border-gray-300"
-              type="password"
-              placeholder="Enter your password"
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-bold">
+                    Password
+                    <span className="text-red-500 ml-2">*</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      className="border border-gray-400"
+                      placeholder="Enter your password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            {errors.password && (
-              <p className="text-red-500 text-sm">{errors.password.message}</p>
-            )}
-          </div>
-          <div className="flex gap-1 text-sm justify-end">
-            <p className="font-bold">Don&apos;t have an account ?</p>
-            <Link
-              className="text-primary justify-end font-bold"
-              href={"/auth/register"}
-            >
-              SignUp
-            </Link>
-          </div>
-          <Button type="submit" className="w-full">
-            Login
-          </Button>
-        </form>
+            <div className="flex justify-end text-sm font-semibold">
+              Don&apos;t have an account ?{" "}
+              <Link
+                href={"/auth/register"}
+                className="ml-1 font-bold text-primary"
+              >
+                Register
+              </Link>
+            </div>
+            <Button className="w-full font-bold" type="submit">
+              Login
+            </Button>
+          </form>
+        </Form>
       </div>
     </div>
   );
 };
 
-export default Page;
+export default Login;
