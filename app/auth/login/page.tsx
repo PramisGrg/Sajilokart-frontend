@@ -16,14 +16,16 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { loginSchema, TloginSchema } from "@/schemas/auth.schema";
+import { useLoginMutation } from "@/services/queries/auth.query";
 
 const Login = () => {
+  const login = useLoginMutation();
   const form = useForm<TloginSchema>({
     resolver: zodResolver(loginSchema),
   });
 
   const onSubmit = (values: TloginSchema) => {
-    console.log(values);
+    login.mutate(values);
   };
 
   return (
@@ -105,7 +107,11 @@ const Login = () => {
                 Register
               </Link>
             </div>
-            <Button className="w-full font-bold" type="submit">
+            <Button
+              disabled={login.isPending}
+              className="w-full font-bold"
+              type="submit"
+            >
               Login
             </Button>
           </form>
