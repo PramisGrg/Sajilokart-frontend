@@ -15,11 +15,30 @@ import { registerSchema, TRegisterSchema } from "@/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
 
 const Register = () => {
+  const [preview, setPreview] = useState<string | null>(null);
+
   const form = useForm<TRegisterSchema>({
     resolver: zodResolver(registerSchema),
+  });
+
+  const onDrop = (acceptedFile: File[]) => {
+    const file = acceptedFile[0];
+    if (file) {
+      form.setValue("image", file);
+      setPreview(URL.createObjectURL(file));
+      console.log("file is Slected");
+    }
+  };
+
+  const { getInputProps, getRootProps } = useDropzone({
+    onDrop,
+    multiple: false,
+    accept: { "image/*": [] },
   });
 
   const onSubmit = (values: TRegisterSchema) => {
@@ -56,6 +75,36 @@ const Register = () => {
               </h1>
               <p className="text-center font-thin">Let&apos;s get started 🚀</p>
             </div>
+            <FormField
+              control={form.control}
+              name="image"
+              render={() => (
+                <FormItem className="flex flex-col items-center">
+                  <FormControl>
+                    {!preview ? (
+                      <div
+                        className="w-28 h-28 flex items-center cursor-pointer justify-center border border-gray-400 border-dashed rounded-full"
+                        {...getRootProps()}
+                      >
+                        <input {...getInputProps()} />
+                        <p className="text-sm text-gray-400">Select Image</p>
+                      </div>
+                    ) : (
+                      <div>
+                        <Image
+                          src={preview}
+                          height={1000}
+                          width={1000}
+                          alt="This is preview alternative"
+                          className="w-28 h-28 rounded-full object-cover"
+                        />
+                      </div>
+                    )}
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="email"

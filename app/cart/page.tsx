@@ -15,8 +15,6 @@ const Cart = () => {
     }
   };
 
-  console.log(preview, "This is Preview");
-
   const { getInputProps, getRootProps } = useDropzone({
     onDrop,
     multiple: false,
@@ -28,7 +26,7 @@ const Cart = () => {
       {!preview ? (
         <div
           {...getRootProps()}
-          className="border-dashed border-2 p-6 text-center cursor-pointer rounded-md hover:bg-gray-50 transition-colors"
+          className="border-dashed flex items-center justify-center border-2 p-6 text-center cursor-pointer rounded-md hover:bg-gray-50 transition-colors w-48 h-48"
         >
           <input {...getInputProps()} />
           <p className="text-gray-500">
