@@ -1,28 +1,59 @@
 "use client";
-import { axiosInstance } from "@/services/axios";
-import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import { useState } from "react";
+import { useDropzone } from "react-dropzone";
+import { Button } from "@/components/ui/button";
 
 const Cart = () => {
-  const [data, setData] = useState(null);
+  const [preview, setPreview] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.get("/product");
-        console.log(response, "This is response");
-        setData(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  const onDrop = (acceptedFiles: File[]) => {
+    const file = acceptedFiles[0];
+    if (file) {
+      console.log(file, "This is file");
+      setPreview(URL.createObjectURL(file));
+    }
+  };
 
-    fetchData();
-  }, []); // Empty dependency array ensures it
-  console.log(data, "This is data");
+  console.log(preview, "This is Preview");
+
+  const { getInputProps, getRootProps } = useDropzone({
+    onDrop,
+    multiple: false,
+    accept: { "image/*": [] },
+  });
 
   return (
-    <div>
-      <h1>This is cart</h1>
+    <div className="space-y-4">
+      {!preview ? (
+        <div
+          {...getRootProps()}
+          className="border-dashed border-2 p-6 text-center cursor-pointer rounded-md hover:bg-gray-50 transition-colors"
+        >
+          <input {...getInputProps()} />
+          <p className="text-gray-500">
+            Drag & drop an image here, or click to select
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          <div className="relative w-48 h-48">
+            <Image
+              src={preview}
+              fill
+              alt="Preview"
+              className="object-cover rounded-md"
+            />
+          </div>
+          <Button
+            onClick={() => setPreview(null)}
+            variant="destructive"
+            className="w-full"
+          >
+            Delete Image
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

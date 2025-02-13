@@ -1,13 +1,5 @@
 "use client";
-import Image from "next/image";
-import React from "react";
-import loginImage from "@/public/cloud.jpeg";
-import { Input } from "@/components/ui/input";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { registerSchema, TRegisterSchema } from "@/schemas/auth.schema";
 import {
   Form,
   FormControl,
@@ -16,7 +8,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import loginImage from "@/public/cloud.jpeg";
+import { registerSchema, TRegisterSchema } from "@/schemas/auth.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
 
 const Register = () => {
   const form = useForm<TRegisterSchema>({
@@ -144,6 +143,7 @@ const Register = () => {
               render={({ field }) => (
                 <FormItem className="space-y-3">
                   <FormLabel className="font-bold">Select a role</FormLabel>
+                  <span className="ml-2 text-red-400">*</span>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
