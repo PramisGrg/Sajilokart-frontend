@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import loginImage from "@/public/cloud.jpeg";
 import { registerSchema, TRegisterSchema } from "@/schemas/auth.schema";
+import { useRegisterMutation } from "@/services/queries/auth.query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,6 +21,7 @@ import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
 
 const Register = () => {
+  const register = useRegisterMutation();
   const [preview, setPreview] = useState<string | null>(null);
 
   const form = useForm<TRegisterSchema>({
@@ -42,6 +44,7 @@ const Register = () => {
   });
 
   const onSubmit = (values: TRegisterSchema) => {
+    register.mutate(values);
     console.log(values);
   };
 
@@ -226,7 +229,11 @@ const Register = () => {
                 Login
               </Link>
             </div>
-            <Button className="w-full font-bold" type="submit">
+            <Button
+              disabled={register.isPending}
+              className="w-full font-bold"
+              type="submit"
+            >
               Register
             </Button>
           </form>

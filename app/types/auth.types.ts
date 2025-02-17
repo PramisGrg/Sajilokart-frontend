@@ -13,6 +13,21 @@ interface TLoginResponseData {
   role: UserRole;
 }
 
+interface TRegisterResponseData {
+  name: string;
+  email: string;
+  phoneNumber: string;
+  password: string;
+  role: UserRole;
+  id: string;
+  image: string;
+}
+
+export interface TRegisterResponse {
+  data: TRegisterResponseData;
+  message: string;
+}
+
 export interface TLoginResponse {
   data: TLoginResponseData;
   message: string;

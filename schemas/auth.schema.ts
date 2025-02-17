@@ -20,7 +20,8 @@ export const registerSchema = z.object({
     })
     .refine((file) => ["image/jpeg", "image/png"].includes(file.type), {
       message: "Only JPG and PNG are allowed",
-    }),
+    })
+    .optional(),
 });
 
 export type TloginSchema = z.infer<typeof loginSchema>;
