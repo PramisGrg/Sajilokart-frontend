@@ -14,10 +14,25 @@ import profile from "@/public/cloud.jpeg";
 import { useGetUserQuery } from "@/services/queries/user.query";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
+import { Skeleton } from "./ui/skeleton";
 
+const UserNavSkeletion = () => {
+  return (
+    <MaxWidthContainer className="flex justify-between py-2">
+      <div className="flex items-center">
+        <Skeleton className="w-20 h-6" />
+      </div>
+      <div>
+        <Skeleton className="w-10 h-10 rounded-full" />
+      </div>
+    </MaxWidthContainer>
+  );
+};
 const Navbar = () => {
   const router = useRouter();
-  const { data: user, isError } = useGetUserQuery();
+  const { data: user, isError, isLoading } = useGetUserQuery();
+
+  if (isLoading) return <UserNavSkeletion />;
 
   return (
     <MaxWidthContainer className="flex justify-between items-center py-2">
@@ -38,7 +53,7 @@ const Navbar = () => {
                 <Image
                   src={profile}
                   alt="Profile Image"
-                  className="w-8 h-8 rounded-full"
+                  className="w-10 h-10 rounded-full"
                 />
               </div>
             </DropdownMenuTrigger>

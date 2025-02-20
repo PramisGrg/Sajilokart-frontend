@@ -3,28 +3,18 @@ import Cookies from "js-cookie";
 
 export const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
-  headers: {
-    "Content-Type": "application/json",
+});
+
+axiosInstance.interceptors.request.use(
+  (config: InternalAxiosRequestConfig) => {
+    console.log(config, "This is config");
+    const token = Cookies.get("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
   },
-});
-
-export const axiosAuthInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
-  },
-});
-
-axios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  return config;
-
-  const token = Cookies;
-});
-
-export const axiosFormInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
-  headers: {
-    "Content-Type": "multipart/form-data",
-  },
-});
+  (error) => {
+    return Promise.reject(error);
+  }
+);
