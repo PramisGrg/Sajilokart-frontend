@@ -35,19 +35,19 @@ export function AppSidebar() {
   const [active, isActive] = useState("Home");
 
   return (
-    <div className="px-4 py-4">
+    <div className="md:px-4 px-2 py-4">
       {items.map((item) => (
         <div key={item.title}>
           <a
             href={item.url}
             onClick={() => isActive(item.title)}
             className={cn(
-              "flex gap-4 rounded-md p-2",
+              "flex gap-4 rounded-md md:p-2 py-2 justify-center md:justify-start",
               active === item.title && "bg-primary/10"
             )}
           >
             <item.icon className="h-5 w-5" />
-            <span>{item.title}</span>
+            <span className="md:block hidden">{item.title}</span>
           </a>
         </div>
       ))}

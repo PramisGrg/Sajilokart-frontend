@@ -4,37 +4,73 @@ import { useGetUserQuery } from "@/services/queries/user.query";
 import ImageWrapper from "@/components/common/image-wrapper";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  updateProfileSchema,
+  TUpdateProfileSchema,
+} from "@/schemas/profile.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const Profile = () => {
   const { data: user } = useGetUserQuery();
   console.log(user, "This is user");
 
+  const form = useForm<TUpdateProfileSchema>({
+    resolver: zodResolver(updateProfileSchema),
+    values: {
+      name: user?.data.name || "",
+      email: user?.data.email || "",
+      phoneNumber: user?.data.phoneNumber || "",
+    },
+  });
+
+  const onSubmit = (values: TUpdateProfileSchema) => {
+    console.log(values, "This is update vlaue");
+  };
+
   return (
     <>
-      <MaxWidthContainer className="mx-auto w-[1000px] space-y-10 py-10">
-        <h1 className="text-3xl font-bold">Edit Profile :</h1>
-        <div className="grid md:grid-cols-2 gap-10">
-          <div>
-            <ImageWrapper
-              className="w-40 h-40 rounded-full"
-              image={user?.data.image}
+      <MaxWidthContainer className="py-4 space-y-4">
+        <h1 className="font-bold">Personal Details</h1>
+        <Form {...form}>
+          <form
+            className="border border-gray-100 p-4 rounded-md space-y-4"
+            onSubmit={form.handleSubmit(onSubmit)}
+          >
+            <FormField
+              name="image"
+              control={form.control}
+              render={() => (
+                <FormItem>
+                  <div className="flex items-center gap-4">
+                    <ImageWrapper
+                      image={user?.data.image}
+                      className="w-36 h-36 rounded-xl"
+                    />
+                    <div className="space-y-2">
+                      <h1 className="font-semibold">Profile Image</h1>
+                      <Button>Upload</Button>
+                    </div>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="flex flex-col justify-center gap-4">
-            <div className="space-y-2">
-              <Label className="font-bold">Name</Label>
-              <Input className="border-gray-200" value={user?.data.name} />
+
+            <div>
+              <Button type="submit">Save</Button>
             </div>
-            <div className="space-y-2">
-              <Label className="font-bold">Email</Label>
-              <Input className="border-gray-200" value={user?.data.email} />
-            </div>
-          </div>
-        </div>
-        <div>
-          <Label></Label>
-          <Input value={user?.data.phoneNumber} />
-        </div>
+          </form>
+        </Form>
       </MaxWidthContainer>
     </>
   );

@@ -7,7 +7,7 @@ const layout = ({ children }: { children: ReactNode }) => {
     <div className="flex h-screen flex-col">
       <Navbar />
       <div className="flex flex-1">
-        <div className="w-56 shadow-md">
+        <div className="md:w-56 w-12 shadow-md">
           <AppSidebar />
         </div>
         <div className="flex-1">
