@@ -11,10 +11,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 import profile from "@/public/cloud.jpeg";
+import Link from "next/link";
 import { useGetUserQuery } from "@/services/queries/user.query";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
-import { Skeleton } from "./ui/skeleton";
+import { Skeleton } from "../ui/skeleton";
 
 const UserNavSkeletion = () => {
   return (
@@ -35,7 +36,7 @@ const Navbar = () => {
   if (isLoading) return <UserNavSkeletion />;
 
   return (
-    <MaxWidthContainer className="flex justify-between items-center py-2">
+    <MaxWidthContainer className="flex justify-between border-b border-gray-200 items-center py-2 z-50">
       <div className="font-bold">Sajilo Kart</div>
       {!user || isError ? (
         <div className="flex gap-4">
@@ -60,7 +61,9 @@ const Navbar = () => {
             <DropdownMenuContent className="bg-white border-gray-200">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href={"/profile"}>Profile</Link>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
