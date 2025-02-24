@@ -3,7 +3,6 @@ import MaxWidthContainer from "@/layouts/max-width-container";
 import { useGetUserQuery } from "@/services/queries/user.query";
 import ImageWrapper from "@/components/common/image-wrapper";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import {
@@ -43,7 +42,7 @@ const Profile = () => {
         <h1 className="font-bold">Personal Details</h1>
         <Form {...form}>
           <form
-            className="border border-gray-100 p-4 rounded-md space-y-4"
+            className="border border-gray-200 p-4 rounded-lg space-y-6"
             onSubmit={form.handleSubmit(onSubmit)}
           >
             <FormField
@@ -57,7 +56,7 @@ const Profile = () => {
                       className="w-36 h-36 rounded-xl"
                     />
                     <div className="space-y-2">
-                      <h1 className="font-semibold">Profile Image</h1>
+                      <h1 className="">Profile Image</h1>
                       <Button>Upload</Button>
                     </div>
                   </div>
@@ -66,8 +65,55 @@ const Profile = () => {
               )}
             />
 
+            <div className="grid md:grid-cols-2 gap-6">
+              <FormField
+                name="name"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-bold">Name</FormLabel>
+                    <FormControl>
+                      <Input className="border-gray-200" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                name="email"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-bold">Email</FormLabel>
+                    <FormControl>
+                      <Input className="border-gray-200" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              <FormField
+                name="phoneNumber"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-bold">Phone Number</FormLabel>
+                    <FormControl>
+                      <Input className="border-gray-200" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <div>
-              <Button type="submit">Save</Button>
+              <Button disabled={!form.formState.isDirty} type="submit">
+                Save
+              </Button>
             </div>
           </form>
         </Form>
