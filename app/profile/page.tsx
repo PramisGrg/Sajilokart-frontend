@@ -18,10 +18,12 @@ import {
   TUpdateProfileSchema,
 } from "@/schemas/profile.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useDropzone } from "react-dropzone";
 
 const Profile = () => {
   const { data: user } = useGetUserQuery();
-  console.log(user, "This is user");
+  const [preview, setPreview] = useState<string | null>(null);
 
   const form = useForm<TUpdateProfileSchema>({
     resolver: zodResolver(updateProfileSchema),
@@ -29,7 +31,22 @@ const Profile = () => {
       name: user?.data.name || "",
       email: user?.data.email || "",
       phoneNumber: user?.data.phoneNumber || "",
+      image: undefined,
     },
+  });
+
+  const onDrop = (acceptedFile: File[]) => {
+    const file = acceptedFile[0];
+    if (file) {
+      form.setValue("image", file, { shouldDirty: true });
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const { getInputProps, getRootProps } = useDropzone({
+    onDrop,
+    multiple: false,
+    accept: { "image/*": [] },
   });
 
   const onSubmit = (values: TUpdateProfileSchema) => {
@@ -52,12 +69,15 @@ const Profile = () => {
                 <FormItem>
                   <div className="flex items-center gap-4">
                     <ImageWrapper
-                      image={user?.data.image}
+                      image={preview}
                       className="w-36 h-36 rounded-xl"
                     />
                     <div className="space-y-2">
                       <h1 className="">Profile Image</h1>
-                      <Button>Upload</Button>
+                      <div {...getRootProps()}>
+                        <input className="hidden" {...getInputProps()} />
+                        <Button type="button">Upload</Button>
+                      </div>
                     </div>
                   </div>
                   <FormMessage />

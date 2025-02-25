@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 interface ImageWrapperProps {
-  image: string | undefined;
+  image: string | null;
   className?: string;
 }
 
