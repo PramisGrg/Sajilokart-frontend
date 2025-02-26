@@ -1,11 +1,11 @@
 "use client";
 import { TloginSchema, TRegisterSchema } from "@/schemas/auth.schema";
 import { useMutation } from "@tanstack/react-query";
-import { axiosInstance } from "../axios";
+import { axiosFormInstance, axiosInstance } from "../axios";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Cookies from "js-cookie";
-import { TLoginResponse, TRegisterResponse } from "@/app/types/auth.types";
+import { TLoginResponse, TRegisterResponse } from "@/types/auth.types";
 
 export const useLoginMutation = () => {
   const router = useRouter();
@@ -31,7 +31,7 @@ export const useRegisterMutation = () => {
 
   return useMutation<TRegisterResponse, Error, TRegisterSchema>({
     mutationFn: async (values: TRegisterSchema) => {
-      const response = await axiosInstance.post("/auth/register", values);
+      const response = await axiosFormInstance.post("/auth/register", values);
       return response.data;
     },
 

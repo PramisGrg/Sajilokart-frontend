@@ -9,13 +9,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Image from "next/image";
-import profile from "@/public/cloud.jpeg";
 import Link from "next/link";
 import { useGetUserQuery } from "@/services/queries/user.query";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "../ui/skeleton";
+import ImageWrapper from "./image-wrapper";
 
 const UserNavSkeletion = () => {
   return (
@@ -36,8 +35,10 @@ const Navbar = () => {
   if (isLoading) return <UserNavSkeletion />;
 
   return (
-    <MaxWidthContainer className="flex justify-between border-b border-gray-200 items-center py-2 z-50">
-      <div className="font-bold">Sajilo Kart</div>
+    <MaxWidthContainer className="flex justify-between border-b border-gray-200 items-center py-4 z-50">
+      <div className="font-bold">
+        <Link href={"/"}>Sajilo Kart</Link>
+      </div>
       {!user || isError ? (
         <div className="flex gap-4">
           <Button onClick={() => router.push("/auth/login")}>Login</Button>
@@ -51,9 +52,8 @@ const Navbar = () => {
             <DropdownMenuTrigger>
               <div className="flex gap-4 items-center">
                 <h1>{user.data.name}</h1>
-                <Image
-                  src={profile}
-                  alt="Profile Image"
+                <ImageWrapper
+                  image={user.data.image}
                   className="w-10 h-10 rounded-full"
                 />
               </div>

@@ -1,6 +1,9 @@
 "use client";
 import MaxWidthContainer from "@/layouts/max-width-container";
-import { useGetUserQuery } from "@/services/queries/user.query";
+import {
+  useGetUserQuery,
+  useUpdateUserQuery,
+} from "@/services/queries/user.query";
 import ImageWrapper from "@/components/common/image-wrapper";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -23,7 +26,8 @@ import { useDropzone } from "react-dropzone";
 
 const Profile = () => {
   const { data: user } = useGetUserQuery();
-  const [preview, setPreview] = useState<string | null>(null);
+  const updateProfile = useUpdateUserQuery();
+  const [preview, setPreview] = useState<string | undefined>(undefined);
 
   const form = useForm<TUpdateProfileSchema>({
     resolver: zodResolver(updateProfileSchema),
@@ -51,6 +55,7 @@ const Profile = () => {
 
   const onSubmit = (values: TUpdateProfileSchema) => {
     console.log(values, "This is update vlaue");
+    updateProfile.mutate(values);
   };
 
   return (
@@ -69,7 +74,7 @@ const Profile = () => {
                 <FormItem>
                   <div className="flex items-center gap-4">
                     <ImageWrapper
-                      image={preview}
+                      image={preview || user?.data.image}
                       className="w-36 h-36 rounded-xl"
                     />
                     <div className="space-y-2">
@@ -131,7 +136,10 @@ const Profile = () => {
               />
             </div>
             <div>
-              <Button disabled={!form.formState.isDirty} type="submit">
+              <Button
+                disabled={!form.formState.isDirty || updateProfile.isPending}
+                type="submit"
+              >
                 Save
               </Button>
             </div>
