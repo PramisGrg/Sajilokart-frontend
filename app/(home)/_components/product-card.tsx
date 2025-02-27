@@ -2,6 +2,7 @@ import ImageWrapper from "@/components/common/image-wrapper";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { TProductResponseData } from "@/types/product.types";
+import { ChartBarBig, Heart } from "lucide-react";
 import React from "react";
 
 const ProductCard = ({ product }: { product: TProductResponseData[] }) => {
@@ -10,22 +11,25 @@ const ProductCard = ({ product }: { product: TProductResponseData[] }) => {
     <div className="grid md:grid-cols-4 gap-6 grid-cols-2">
       {product.map((item) => (
         <Card
-          className="border-none bg-white rounded-none space-y-4"
+          className="border-none bg-white rounded-none space-y-2 pb-4 group relative hover:bg-gray-100 transition-all duration-300"
           key={item.id}
         >
-          <div className="space-y-4">
-            <ImageWrapper
-              className="w-full h-80 object-cover"
-              image={undefined}
-            />
-            <p className="text-xl text-center">{item.name}</p>
-          </div>
-          <div className="flex justify-between px-8">
-            <p>Price: Rs {item.price}</p>
-            <p>Stock: {item.stock}</p>
-          </div>
-          <div className="flex justify-center px-8 pb-4">
-            <Button className="border-none rounded-none">Add to Cart</Button>
+          <ImageWrapper
+            className="w-full md:h-64 h-48 object-cover"
+            image={undefined}
+          />
+          <div className="space-y-2 px-2">
+            <p className="text-center font-semibold">{item.name}</p>
+            <p className="text-primary font-bold">Rs {item.price}</p>
+            <div className="flex justify-center items-center">
+              <div className="absolute opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-0 group-hover:-translate-x-20 ease-in-out">
+                <Heart className="h-5 w-5 cursor-pointer" />
+              </div>
+              <Button className="border-none rounded-none">Add to Cart</Button>
+              <div className="absolute opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-0 group-hover:translate-x-20 ease-in-out">
+                <ChartBarBig className="h-5 w-5 cursor-pointer" />
+              </div>
+            </div>
           </div>
         </Card>
       ))}

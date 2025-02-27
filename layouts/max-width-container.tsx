@@ -1,20 +1,16 @@
 import { cn } from "@/lib/utils";
-import React from "react";
-
 interface TMaxWidthContainerProps {
   children: React.ReactNode;
   className?: string;
 }
 
-export const MaxWidthContainer = ({
+export default function MaxWidthContainer({
   children,
   className,
-}: TMaxWidthContainerProps) => {
+}: TMaxWidthContainerProps) {
   return (
-    <div className={cn("mx-auto w-full max-w-[1250px] px-4", className)}>
+    <div className={cn("mx-auto max-w-[1200px] px-4 md:px-10", className)}>
       {children}
     </div>
   );
-};
-
-export default MaxWidthContainer;
+}

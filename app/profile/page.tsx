@@ -67,6 +67,7 @@ const Profile = () => {
             className="border border-gray-200 p-4 rounded-lg space-y-6"
             onSubmit={form.handleSubmit(onSubmit)}
           >
+            <h1>{user?.data.role}</h1>
             <FormField
               name="image"
               control={form.control}
