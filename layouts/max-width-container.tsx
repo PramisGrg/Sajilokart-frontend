@@ -11,7 +11,7 @@ export const MaxWidthContainer = ({
   className,
 }: TMaxWidthContainerProps) => {
   return (
-    <div className={cn("mx-auto w-full max-w-[1350px] px-4", className)}>
+    <div className={cn("mx-auto w-full max-w-[1250px] px-4", className)}>
       {children}
     </div>
   );

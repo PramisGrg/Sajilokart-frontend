@@ -9,7 +9,7 @@ const Products = () => {
   if (!product) return null;
 
   return (
-    <div>
+    <div className="space-y-10 py-6">
       <div className="flex items-center w-full my-4">
         <div className="flex-grow h-[1px] bg-gray-200"></div>
         <span className="px-3 text-gray-500 text-xl">Products</span>

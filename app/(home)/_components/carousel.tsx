@@ -14,26 +14,30 @@ import ImageWrapper from "@/components/common/image-wrapper";
 
 const CarouselContainer = () => {
   return (
-    <div>
-      <Carousel
-        plugins={[
-          Autoplay({
-            delay: 5000,
-          }),
-        ]}
-      >
-        <CarouselContent>
-          <CarouselItem>
-            <ImageWrapper className="w-full" image={cover.src} />
-          </CarouselItem>
-          <CarouselItem>
-            <ImageWrapper className="w-full" image={cover1.src} />
-          </CarouselItem>
-        </CarouselContent>
-        <CarouselPrevious className="ml-14 border-none" />
-        <CarouselNext className="mr-14 border-none" />
-      </Carousel>
-    </div>
+    <Carousel
+      plugins={[
+        Autoplay({
+          delay: 5000,
+        }),
+      ]}
+    >
+      <CarouselContent className="md:h-full h-72 object-cover">
+        <CarouselItem>
+          <ImageWrapper
+            className="w-full h-full object-cover"
+            image={cover.src}
+          />
+        </CarouselItem>
+        <CarouselItem>
+          <ImageWrapper
+            className="w-full h-full object-cover"
+            image={cover1.src}
+          />
+        </CarouselItem>
+      </CarouselContent>
+      <CarouselPrevious className="ml-14 border-none" />
+      <CarouselNext className="mr-14 border-none" />
+    </Carousel>
   );
 };
 
