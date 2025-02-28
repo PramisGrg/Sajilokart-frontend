@@ -1,18 +1,25 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import {
+  Calendar,
+  ListCollapse,
+  Package2,
+  Search,
+  Settings,
+} from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 const items = [
   {
-    title: "Home",
-    url: "#",
-    icon: Home,
+    title: "Info",
+    url: "/profile",
+    icon: ListCollapse,
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
+    title: "Products",
+    url: "/profile/product",
+    icon: Package2,
   },
   {
     title: "Calendar",
@@ -32,13 +39,13 @@ const items = [
 ];
 
 export function AppSidebar() {
-  const [active, isActive] = useState("Home");
+  const [active, isActive] = useState("Info");
 
   return (
     <div className="md:px-4 px-2 py-4">
       {items.map((item) => (
         <div key={item.title}>
-          <a
+          <Link
             href={item.url}
             onClick={() => isActive(item.title)}
             className={cn(
@@ -48,7 +55,7 @@ export function AppSidebar() {
           >
             <item.icon className="h-5 w-5" />
             <span className="md:block hidden">{item.title}</span>
-          </a>
+          </Link>
         </div>
       ))}
     </div>
