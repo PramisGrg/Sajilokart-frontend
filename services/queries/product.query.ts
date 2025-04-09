@@ -23,3 +23,15 @@ export const useGetSellerProductQuery = () => {
     },
   });
 };
+
+export const useGetProductById = () => {
+  return useQuery({
+    queryKey: ["productById"],
+    queryFn: async () => {
+      const response = await axiosInstance.get<TProductResponse>(
+        "product/seller-product"
+      );
+      return response.data;
+    },
+  });
+};
